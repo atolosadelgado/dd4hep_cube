@@ -15,7 +15,7 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   std::string detName = detElem.nameStr();
   int detID = detElem.id();
   DetElement det(detName, detID);
-  sens.setType("tracker");
+  sens.setType("calorimeter");
   auto zpos = detElem.attr<double>(_Unicode(zpos));
 
   // We define our own mother volume (vacuum)
