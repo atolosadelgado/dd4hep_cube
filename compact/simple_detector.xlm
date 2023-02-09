@@ -1,0 +1,53 @@
+<lccdd >
+
+  <info name="A_NAME"
+        title="Nice title here"
+        author="Someone"
+        url="my_url"
+        status="development">
+  </info>
+
+<includes>
+  <gdmlFile ref="elements.xml"/>
+  <gdmlFile ref="materials.xml"/>
+</includes>
+
+<display>
+  <vis name="cooling_vis" r="254/256" g="230/256" b="151/256" alpha="0.1"  showDaughters="true" visible="true" />
+  <vis name="sensor_vis"  r="255/256" g="0/256"   b="0/256"   alpha="1.0"  showDaughters="true" visible="true" />
+  <vis name="no_vis" showDaughters="true" visible="false" />
+</display>
+
+<define>
+  <constant name="world_side"             value="30*cm"      />
+  <constant name="world_x"                value="world_side"/>
+  <constant name="world_y"                value="world_side"/>
+  <constant name="world_z"                value="world_side"     />
+  <constant name="tracker_region_zmax"    value="world_side"     />
+  <constant name="tracker_region_rmax"    value="world_side"     />
+  
+</define>
+
+
+<readouts>
+  <readout name="MY_HITS">
+      <id>system:32,module:32</id>
+  </readout>
+</readouts>
+
+
+<detectors>
+  <detector
+    id="1"
+    name="ACUBE"
+    type="MYCUBE"
+    zpos="0*mm"
+    readout="MY_HITS"
+    >
+    </detector>
+</detectors>
+
+
+
+
+</lccdd>
