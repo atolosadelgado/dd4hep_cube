@@ -1,4 +1,9 @@
-Source the paths, for example, from cvmfs
+#HOW TO DD4hep
+==============
+
+## Compile project
+
+Source the paths to the commands of DD4hep and its dependencies, for example, from cvmfs
 
 ```shell
 source /cvmfs/sft.cern.ch/lcg/views/dev4/latest/x86_64-centos7-gcc11-opt/setup.sh 
@@ -27,6 +32,42 @@ To let the programs know where to find our freshly built detector, we have to up
 ```shell
 export LD_LIBRARY_PATH=$PWD/install/lib:$LD_LIBRARY_PATH
 ```
+
+## Things to do after every change
+
+Compile and install after every modification of the c++ detector constructor code.
+
+```bash
+cmake --build build -- install
+```
+
+## Visualize and debug geometry
+
+To display the geometry
+
+```bash
+geoDisplay compact/arc_v0.xml
+```
+
+To convert the geometry into ROOT
+
+```bash
+./dd4hep2root -c  compact/arc_v0.xml -o arc_v0.root
+```
+
+
+To show materials in along a given line (in this case from origin to (0,0,-100)cm), check if the modified volume has the proper material
+
+```bash
+materialScan compact/arc_v0.xml 0 0 0 0 0 -100
+```
+
+Check overlaps, using Geant4 check
+```shell
+ddsim --compactFile ./compact/simple_detector.xml --runType run --part.userParticleHandler='' --macroFile overlap.mac >> overlapDump.txt
+```
+
+## Run simulation
 
 To run the simulation of 1GeV alpha particle we can execute this:
 
@@ -97,3 +138,5 @@ events->Show(0)
  EventHeader.weight = 0.000000
  PARAMETERS      = (podio::GenericParameters*)0xfd8e4f0
 ```
+
+Simulation options, like particle gun and physics lists, can be gathered in a so-called steering file ([one example](https://github.com/atolosadelgado/ARC_detector/blob/f96e1990e40c0b51588464b8c53c2980968ca937/arcsim.py)).
