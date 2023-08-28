@@ -46,21 +46,23 @@ cmake --build build -- install
 To display the geometry
 
 ```bash
-geoDisplay compact/arc_v0.xml
+geoDisplay ./compact/simple_detector.xml
 ```
 
 To convert the geometry into ROOT
 
 ```bash
-./dd4hep2root -c  compact/arc_v0.xml -o arc_v0.root
+./dd4hep2root -c  ./compact/simple_detector.xml -o arc_v0.root
 ```
 
 
 To show materials in along a given line (in this case from origin to (0,0,-100)cm), check if the modified volume has the proper material
 
 ```bash
-materialScan compact/arc_v0.xml 0 0 0 0 0 -100
+materialScan ./compact/simple_detector.xml 0 0 -30 0 0 30
 ```
+
+Possible issue if `USE_GEANT4_UNITS` enabled when building DD4hep.
 
 Check overlaps, using Geant4 check
 ```shell
