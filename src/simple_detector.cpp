@@ -19,7 +19,7 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   auto zpos = detElem.attr<double>(_Unicode(zpos));
 
   // Setup which kind of sensitive detector is
-  sens.setType("calorimeter");
+  sens.setType("OpticalTracker");
 
   // Create the mother Detector element to be returned at the end
   DetElement det(detName, detID);
