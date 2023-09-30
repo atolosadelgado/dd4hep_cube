@@ -13,7 +13,7 @@
 </includes>
 
 <display>
-  <vis name="cooling_vis" r="254/256" g="230/256" b="151/256" alpha="0.1"  showDaughters="true" visible="true" />
+  <vis name="laboratory_vis" r="254/256" g="230/256" b="151/256" alpha="0.1"  showDaughters="true" visible="true" />
   <vis name="sensor_vis"  r="255/256" g="0/256"   b="0/256"   alpha="1.0"  showDaughters="true" visible="true" />
   <vis name="no_vis" showDaughters="true" visible="false" />
 </display>

@@ -302,79 +302,25 @@
       <fraction n="0.234" ref="O"/>
       <fraction n="0.012" ref="Ar"/>
     </material>
-    <material name="AirOptical">
-      <D type="density" unit="g/cm3" value="0.0012"/>
-      <fraction n="0.754" ref="N"/>
-      <fraction n="0.234" ref="O"/>
-      <fraction n="0.012" ref="Ar"/>
-      <property name="RINDEX" ref="RINDEX__Air"/>
-      <property name="ABSLENGTH" coldim="2" values="1*eV  200*m  5*eV  200*m"/>
-    </material>
     <material name="Vacuum">
       <D type="density" unit="g/cm3" value="0.0000000001"/>
       <fraction n="0.754" ref="N"/>
       <fraction n="0.234" ref="O"/>
       <fraction n="0.012" ref="Ar"/>
     </material>
-    <material name="VacuumOptical">
-      <D type="density" unit="g/cm3" value="0.0000000001"/>
+    <material name="AirOptical">
+      <D type="density" unit="g/cm3" value="0.0012"/>
       <fraction n="0.754" ref="N"/>
       <fraction n="0.234" ref="O"/>
       <fraction n="0.012" ref="Ar"/>
-      <property name="RINDEX" ref="RINDEX__Vacuum"/>
-      <property name="ABSLENGTH" coldim="2" values="1*eV  2000*m  5*eV  2000*m"/>
+      <property name="RINDEX"    ref="RINDEX__Air"/>
     </material>
-    <material name="SiliconDioxide"> <!-- density from `G4_SILICON_DIOXIDE` (NIST DB) -->
-      <D type="density" value="2.32" unit="g/cm3"/>
-      <composite n="1" ref="Si"/>
-      <composite n="2" ref="O"/>
-    </material>
-    <material name="Plexiglass">
-      <D type="density" value="1.19" unit="g/cm3"/>
-      <composite n="5" ref="C"/>
-      <composite n="8" ref="H"/>
-      <composite n="2" ref="O"/>
-    </material>
-    <material name="PolyvinylAcetate">
-      <D type="density" value="1.19" unit="g/cm3"/>
-      <composite n="4" ref="C"/>
-      <composite n="6" ref="H"/>
-      <composite n="2" ref="O"/>
-    </material>
-    <material name="C4F10_PFRICH">
-      <D type="density" value="0.009935" unit="g/cm3"/>
-      <composite n="4"  ref="C"/>
-      <composite n="10" ref="F"/>
-      <property name="RINDEX"    ref="RINDEX__C4F10_PFRICH"/>
-      <property name="ABSLENGTH" ref="ABSLENGTH__C4F10_PFRICH"/>
-    </material>
-    <material name="Aerogel_PFRICH">
-      <D type="density" value="0.110" unit="g/cm3"/>
-      <comment> n_air = [dens(Si02)-dens(aerogel)] / [dens(Si02)-dens(Air) ] </comment>
-      <fraction n="    (2.32-0.11) / (2.32-0.0012)" ref="Air"/>
-      <fraction n="1 - (2.32-0.11) / (2.32-0.0012)" ref="SiliconDioxide"/>
-      <property name="RINDEX"    ref="RINDEX__Aerogel_PFRICH"/>
-      <property name="ABSLENGTH" ref="ABSLENGTH__Aerogel_PFRICH"/>
-      <property name="RAYLEIGH"  ref="RAYLEIGH__Aerogel_PFRICH"/>
-    </material>
-    <material name="Acrylic_PFRICH">
-      <D type="density" value="1.19" unit="g/cm3"/>
-      <comment> TO BE IMPROVED </comment>
-      <fraction n="0.99" ref="Plexiglass"/>
-      <fraction n="0.01" ref="PolyvinylAcetate"/>
-      <property name="RINDEX"    ref="RINDEX__Acrylic_PFRICH"/>
-      <property name="ABSLENGTH" ref="ABSLENGTH__Acrylic_PFRICH"/>
+   
+    <material name="SiliconOptical">
+      <D type="density" unit="g/cm3" value="2.3"/>
+      <fraction n="1.0" ref="Si"/>
+      <property name="RINDEX"    ref="RINDEX__Air"/>
     </material>
   </materials>
-
-  <surfaces>
-    <opticalsurface name="SensorSurface_PFRICH" model="glisur" finish="polished" type="dielectric_dielectric">
-      <property name="EFFICIENCY" coldim="2" values="
-        1*eV  1
-        4*eV  1
-        7*eV  1
-        "/>
-    </opticalsurface>
-  </surfaces>
 
 </lccdd>

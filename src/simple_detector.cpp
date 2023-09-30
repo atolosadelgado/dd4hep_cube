@@ -15,9 +15,6 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   std::string detName = detElem.nameStr();
   int detID = detElem.id();
 
-  // Get z position from compact file
-  auto zpos = detElem.attr<double>(_Unicode(zpos));
-
   // Setup which kind of sensitive detector is
   sens.setType("OpticalTracker");
 
@@ -26,15 +23,20 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
 
   // How to define one detector:
   // Define geometrical shape
-  Box siSolid(19 * cm / 2.,
-              19 * cm / 2.,
-              19 * cm / 2.);
+  double sizexyz = 50 * cm;
+  Box laboratoryShape( sizexyz ,sizexyz ,sizexyz );
   // Define volume (shape+material)
-  Volume siVol(detName +"_sensor", siSolid, desc.material("Silicon"));
-  siVol.setVisAttributes(desc.visAttributes("sensor_vis"));
-  siVol.setSensitiveDetector(sens);
-  siVol.setLimitSet(desc, detElem.limitsStr());
-
+  Volume laboratoryVol(detName +"_laboratory", laboratoryShape, desc.material("AirOptical"));
+  laboratoryVol.setVisAttributes(desc.visAttributes("laboratory_vis"));
+  laboratoryVol.setSensitiveDetector(sens);
+  
+  {
+  Box sensorShape( sizexyz / 2.,sizexyz / 2.,sizexyz / 2.);
+  // Define volume (shape+material)
+  Volume sensorVol(detName +"_sensor", sensorShape, desc.material("SiliconOptical"));
+  sensorVol.setVisAttributes(desc.visAttributes("sensor_vis"));
+  laboratoryVol.placeVolume(sensorVol);	
+  }
 
   // Place our mother volume in the world
   Volume wVol = desc.pickMotherVolume(det);
@@ -44,13 +46,13 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   wVol.setVisAttributes(desc.visAttributes("no_vis"));
 
 
-  PlacedVolume siPV = wVol.placeVolume(siVol, Position(0, 0, zpos));
+  PlacedVolume laboratoryPV = wVol.placeVolume(laboratoryVol);
 
   // Assign the system ID to our mother volume
-  siPV.addPhysVolID("system", detID);
+  laboratoryPV.addPhysVolID("system", detID);
 
   // Associate the silicon Placed Volume to the detector element.
-  det.setPlacement(siPV);
+  det.setPlacement(laboratoryPV);
 
   return det;
 }
