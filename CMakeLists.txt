@@ -17,10 +17,10 @@ IF(NOT TARGET DD4hep::DDCore)
   dd4hep_configure_output()
 ENDIF()
 
-dd4hep_set_compiler_flags()
-dd4hep_use_python_executable()
+#dd4hep_set_compiler_flags()
+#dd4hep_use_python_executable()
 
-dd4hep_configure_output()
+#dd4hep_configure_output()
 
 dd4hep_add_plugin(simple_example SOURCES src/*.cpp
   USES DD4hep::DDCore DD4hep::DDRec DD4hep::DDCond ROOT::Core ROOT::Geom ROOT::GenVector ROOT::MathCore)

@@ -71,13 +71,13 @@ ddsim --compactFile ./compact/simple_detector.xml --runType run --part.userParti
 
 ## Run simulation
 
-To run the simulation of 1GeV alpha particle we can execute this:
+To run the simulation of 0.27402359GeV alpha particle, we have to provide total energy (mass+kinetic) so 4GeV total:
 
 ```shell
-ddsim --compactFile compact/simple_detector.xml --runType qt --enableGun --gun.particle alpha --gun.energy 1*GeV  -N 1 --outputFile example_edm4hep.root --macroFile vis.mac --gun.distribution uniform --gun.isotrop true
+ddsim --compactFile compact/simple_detector.xml --runType qt --enableGun --gun.particle alpha --gun.energy 4*GeV  -N 1 --outputFile example_edm4hep.root --macroFile vis.mac --gun.distribution uniform --gun.isotrop true
 ```
 
-The track can be something like ![A track of 10GeV alpha in lead](https://mattermost.web.cern.ch/files/f1tnt4n4n7dabk7zpbnwxbyxdc/public?h=usG4tmiWGuhWBAujICrw-K5bv63s6TR0izjSpG4CvjM)
+The track can be something like ![A track of 274.02359 MeV alpha in lead](https://mattermost.web.cern.ch/files/f1tnt4n4n7dabk7zpbnwxbyxdc/public?h=usG4tmiWGuhWBAujICrw-K5bv63s6TR0izjSpG4CvjM)
 
 If we inspect the output rootfile,
 
