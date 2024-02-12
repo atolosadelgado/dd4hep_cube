@@ -15,36 +15,28 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   std::string detName = detElem.nameStr();
   int detID = detElem.id();
 
-  // Get z position from compact file
-  auto zpos = detElem.attr<double>(_Unicode(zpos));
-
   // Setup which kind of sensitive detector is
   sens.setType("calorimeter");
 
   // Create the mother Detector element to be returned at the end
   DetElement det(detName, detID);
 
-  // How to define one detector:
-  // Define geometrical shape
-  Box siSolid(19 * cm / 2.,
-              19 * cm / 2.,
-              19 * cm / 2.);
+  double twist_angle = 180*deg;
+  double rmin = 5*cm;
+  double rmax = 10*cm;
+  double dz = 10*cm;
+  double dphi = 90*deg;
+  TwistedTube myshape( twist_angle,  rmin,  rmax,  dz,  dphi);
   // Define volume (shape+material)
-  Volume siVol(detName +"_sensor", siSolid, desc.material("Silicon"));
+  Volume siVol(detName +"_sensor", myshape, desc.material("Silicon"));
   siVol.setVisAttributes(desc.visAttributes("sensor_vis"));
   siVol.setSensitiveDetector(sens);
-  siVol.setLimitSet(desc, detElem.limitsStr());
 
 
   // Place our mother volume in the world
   Volume wVol = desc.pickMotherVolume(det);
 
-  // setup mother volume as transparent.
-  // This is just for example, bad practice in general!
-  wVol.setVisAttributes(desc.visAttributes("no_vis"));
-
-
-  PlacedVolume siPV = wVol.placeVolume(siVol, Position(0, 0, zpos));
+  PlacedVolume siPV = wVol.placeVolume(siVol);
 
   // Assign the system ID to our mother volume
   siPV.addPhysVolID("system", detID);

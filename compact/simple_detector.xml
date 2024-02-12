@@ -42,7 +42,6 @@
     id="1"
     name="ACUBE"
     type="MYCUBE"
-    zpos="0*mm"
     readout="MY_HITS"
     >
     </detector>

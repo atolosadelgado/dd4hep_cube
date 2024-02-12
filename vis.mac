@@ -19,4 +19,4 @@
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
 
-
+/vis/scene/add/axes
