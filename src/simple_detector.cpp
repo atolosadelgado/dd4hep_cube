@@ -21,22 +21,33 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   // Create the mother Detector element to be returned at the end
   DetElement det(detName, detID);
 
-  double twist_angle = 180*dd4hep::deg;
-  double rmin = 5*dd4hep::cm;
-  double rmax = 10*dd4hep::cm;
-  double dz = 10*dd4hep::cm;
-  double dphi = 90*dd4hep::deg;
-  TwistedTube myshape( twist_angle,  rmin,  rmax,  dz,  dphi);
+
+
+
+  double twist_angle = 90*dd4hep::degree;
+  double rmin = 1*dd4hep::cm;
+  double rmax = 5*dd4hep::cm;
+  double dz = 5*dd4hep::cm;
+  double dphi = 30*dd4hep::deg;
+  int nsegments = 1;
+  TwistedTube myshape( twist_angle,  rmin,  rmax, dz, dphi);
   // Define volume (shape+material)
+  // Box myshape( 1*dd4hep::cm,1*dd4hep::cm,1*dd4hep::cm);
   Volume siVol(detName +"_sensor", myshape, desc.material("Silicon"));
   siVol.setVisAttributes(desc.visAttributes("sensor_vis"));
   siVol.setSensitiveDetector(sens);
+
+
+  //Box ancshape( dz,dz,dz);
+  //Volume ancVol(detName +"ancshape", ancshape, desc.material("Silicon"));
+  //  ancVol.setVisAttributes(desc.visAttributes("cooling_vis"));
 
 
   // Place our mother volume in the world
   Volume wVol = desc.pickMotherVolume(det);
 
   PlacedVolume siPV = wVol.placeVolume(siVol);
+  //PlacedVolume ancPV = wVol.placeVolume(ancVol);
 
   // Assign the system ID to our mother volume
   siPV.addPhysVolID("system", detID);
