@@ -35,7 +35,7 @@
       <id>system:6,module:2,x:12:-6,y:24:-6</id>
 </readout>
     <readout name="myreadout">
-        <segmentation type="mygrid" grid_size_theta="0.5625" offset_theta="-0.83"/>
+        <segmentation type="GridTheta" grid_size_theta="0.5625" offset_theta="-0.83"/>
       <id>system:4,theta:9</id>
     </readout>
 </readouts>
