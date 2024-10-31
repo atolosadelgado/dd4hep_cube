@@ -20,7 +20,7 @@ template <typename T>
 class SegmentationWrapper;
 
 /// We need some abbreviation to make the code more readable.
-typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>> GridHyperboloidHandle;
+// typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloidHandle>> GridHyperboloidHandleHandle;
 
 /// Implementation class for the grid phi-theta segmentation.
 /**
@@ -42,27 +42,27 @@ typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>> GridHyperbo
  *  \author  A. Zaborowska
  *  \version 1.0
  */
-class GridHyperboloid : public GridHyperboloidHandle {
+class GridHyperboloidHandle : public Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>> {
 public:
   /// Defintiion of the basic handled object
-  typedef GridHyperboloidHandle::Object Object;
+  typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>>::Object Object;
 
 public:
   /// Default constructor
-  GridHyperboloid() = default;
+  GridHyperboloidHandle() = default;
   /// Copy constructor
-  GridHyperboloid(const GridHyperboloid& e) = default;
+  GridHyperboloidHandle(const GridHyperboloidHandle& e) = default;
   /// Copy Constructor from segmentation base object
-  GridHyperboloid(const Segmentation& e) : Handle<Object>(e) {}
+  GridHyperboloidHandle(const Segmentation& e) : Handle<Object>(e) {}
   /// Copy constructor from handle
-  GridHyperboloid(const Handle<Object>& e) : Handle<Object>(e) {}
+  GridHyperboloidHandle(const Handle<Object>& e) : Handle<Object>(e) {}
   /// Copy constructor from other polymorph/equivalent handle
   template <typename Q>
-  GridHyperboloid(const Handle<Q>& e) : Handle<Object>(e) {}
+  GridHyperboloidHandle(const Handle<Q>& e) : Handle<Object>(e) {}
   /// Assignment operator
-  GridHyperboloid& operator=(const GridHyperboloid& seg) = default;
+  GridHyperboloidHandle& operator=(const GridHyperboloidHandle& seg) = default;
   /// Equality operator
-  bool operator==(const GridHyperboloid& seg) const { return m_element == seg.m_element; }
+  bool operator==(const GridHyperboloidHandle& seg) const { return m_element == seg.m_element; }
   /// determine the position based on the cell ID
   inline Position position(const CellID& id) const { return Position(access()->implementation->position(id)); }
 

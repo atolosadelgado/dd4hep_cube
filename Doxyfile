@@ -1,0 +1,77 @@
+# Doxyfile configuration for generating class dependency diagrams
+
+# Project details
+PROJECT_NAME           = "MyProject"
+PROJECT_BRIEF          = "Documentation of MyProject's classes and dependencies"
+PROJECT_LOGO           = 
+OUTPUT_DIRECTORY       = ./docs
+INPUT                  = .
+RECURSIVE              = YES
+
+# File extensions for Doxygen to parse
+FILE_PATTERNS          = *.cpp *.h *.hpp
+
+# Extract all elements
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+# Graph generation (requires Graphviz)
+HAVE_DOT               = YES
+
+# Class diagrams and dependency trees
+CLASS_DIAGRAMS         = YES
+COLLABORATION_GRAPH    = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+GRAPHICAL_HIERARCHY    = YES
+
+# Control diagram complexity
+MAX_DOT_GRAPH_DEPTH    = 4
+DOT_GRAPH_MAX_NODES    = 50
+
+# Optimize output for large projects
+DOT_TRANSPARENT        = YES
+DOT_MULTI_TARGETS      = YES
+DOT_IMAGE_FORMAT       = svg
+
+# Clean up intermediate DOT files after generating graphs
+DOT_CLEANUP            = YES
+
+# Customize layout of documentation
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
+
+# Optional, to better handle overloaded functions in diagrams
+SHOW_USED_FILES        = YES
+SHOW_DIRECTORIES       = YES
+
+# Warn about undocumented elements (optional, helpful for large projects)
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = YES
+
+# Miscellaneous configurations
+QUIET                  = NO
+OPTIMIZE_OUTPUT_FOR_C  = YES
+OPTIMIZE_OUTPUT_JAVA   = NO
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = NO
+
+# Customize source browser output
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+TYPEDEF_HIDES_STRUCT = NO
+ALIASES += "Handle=\class Handle<T>"
+ALIASES += "SegmentationWrapper=\class SegmentationWrapper<T>"
+
+
+
+
