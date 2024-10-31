@@ -45,7 +45,7 @@
   <detector
     id="0"
     name="ACUBE"
-    type="MYCUBE"
+    type="MYHYPERBOLOID"
     zpos="0*mm"
     readout="myreadout"
     >
