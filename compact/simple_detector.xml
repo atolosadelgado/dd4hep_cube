@@ -36,7 +36,7 @@
 </readout>
     <readout name="myreadout">
         <segmentation type="GridHyperboloid" grid_size_theta="0.5625" offset_theta="-0.83"/>
-      <id>system:4,theta:9</id>
+      <id>system:4,layer:9</id>
     </readout>
 </readouts>
 

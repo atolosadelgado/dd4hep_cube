@@ -19,8 +19,8 @@ class Segmentation;
 template <typename T>
 class SegmentationWrapper;
 
-/// We need some abbreviation to make the code more readable.
-// typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloidHandle>> GridHyperboloidHandleHandle;
+/// Templated base class of Handle used to create the derived handle class for GridHyperboloid
+typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>> Handle_templated_for_GridHyperboloid;
 
 /// Implementation class for the grid phi-theta segmentation.
 /**
@@ -42,10 +42,10 @@ class SegmentationWrapper;
  *  \author  A. Zaborowska
  *  \version 1.0
  */
-class GridHyperboloidHandle : public Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>> {
+class GridHyperboloidHandle : public Handle_templated_for_GridHyperboloid {
 public:
   /// Defintiion of the basic handled object
-  typedef Handle<SegmentationWrapper<DDSegmentation::GridHyperboloid>>::Object Object;
+  typedef Handle_templated_for_GridHyperboloid::Object Object;
 
 public:
   /// Default constructor
@@ -63,6 +63,7 @@ public:
   GridHyperboloidHandle& operator=(const GridHyperboloidHandle& seg) = default;
   /// Equality operator
   bool operator==(const GridHyperboloidHandle& seg) const { return m_element == seg.m_element; }
+
   /// determine the position based on the cell ID
   inline Position position(const CellID& id) const { return Position(access()->implementation->position(id)); }
 
@@ -71,20 +72,23 @@ public:
     return access()->implementation->cellID(local, global, volID);
   }
 
-  /// access the grid size in theta
-  inline double gridSizeTheta() const { return access()->implementation->gridSizeTheta(); }
+  inline std::string fieldNameLayer() const { return access()->implementation->fieldNameLayer(); }
 
-  /// access the coordinate offset in theta
-  inline double offsetTheta() const { return access()->implementation->offsetTheta(); }
 
-  /// set the coordinate offset in theta
-  inline void setOffsetTheta(double offset) const { access()->implementation->setOffsetTheta(offset); }
-
-  /// set the grid size in theta
-  inline void setGridSizeTheta(double cellSize) const { access()->implementation->setGridSizeTheta(cellSize); }
-
-  /// access the field name used for theta
-  inline const std::string& fieldNameTheta() const { return access()->implementation->fieldNameTheta(); }
+  // /// access the grid size in theta
+  // inline double gridSizeTheta() const { return access()->implementation->gridSizeTheta(); }
+  //
+  // /// access the coordinate offset in theta
+  // inline double offsetTheta() const { return access()->implementation->offsetTheta(); }
+  //
+  // /// set the coordinate offset in theta
+  // inline void setOffsetTheta(double offset) const { access()->implementation->setOffsetTheta(offset); }
+  //
+  // /// set the grid size in theta
+  // inline void setGridSizeTheta(double cellSize) const { access()->implementation->setGridSizeTheta(cellSize); }
+  //
+  // /// access the field name used for theta
+  // inline const std::string& fieldNameTheta() const { return access()->implementation->fieldNameTheta(); }
 
   /** \brief Returns a std::vector<double> of the cellDimensions of the given cell ID
       in natural order of dimensions (dTheta)
@@ -95,7 +99,8 @@ public:
       -# size in theta
   */
   inline std::vector<double> cellDimensions(const CellID& /*id*/) const {
-    return {access()->implementation->gridSizeTheta()};
+    // return {access()->implementation->gridSizeTheta()};
+    return {0.,0.,0.};
   }
 };
 
