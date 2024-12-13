@@ -1,0 +1,9 @@
+
+/vis/verbose 2
+/control/verbose 2
+
+/vis/open RayTracerX
+/vis/drawVolume
+#/vis/viewer/set/viewpointThetaPhi -45 45
+#/vis/viewer/refresh
+

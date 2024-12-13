@@ -6,6 +6,10 @@
 
 # Specify style (surface, wireframe, auxiliary edges,cloud...)
 /vis/viewer/set/style surface
+/vis/viewer/set/lineSegmentsPerCircle 17
+
+/vis/ASCIITree/verbose 5
+/vis/drawTree
 
 # Draw smooth trajectories at end of event
 /vis/scene/add/trajectories smooth
@@ -21,10 +25,4 @@
 
 /vis/scene/add/axes
 
-/gps/particle alpha
-/gps/direction 0 0 -1
-
-/gps/pos/type Point
-/gps/pos/centre 0 0 0 cm
-/gps/pos/rot1 1 1 1
-/gps/pos/rot2 1 1 1
+#/control/execute gun.mac
