@@ -1,0 +1,7 @@
+/gps/particle alpha
+/gps/direction 0 0 -1
+
+/gps/pos/type Point
+/gps/pos/centre 0 0 0 cm
+/gps/pos/rot1 1 1 1
+/gps/pos/rot2 1 1 1

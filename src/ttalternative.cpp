@@ -112,37 +112,39 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   double twist_angle = 30*dd4hep::degree;
   double rmin = 1*dd4hep::cm;
   double rmax = 5*dd4hep::cm;
-  double dz = 2*dd4hep::cm;
+  double dz = 200*dd4hep::cm;
 
-  double dphi = 90*dd4hep::deg;
+  double dphi = 30*dd4hep::deg;
+  double safe_factor=1-1e-2;
   // int nsides = 2;
   //   double dphi = TMath::TwoPi()/nsides*dd4hep::rad;
-  // TwistedTube myshape( twist_angle,  rmin,  rmax, dz, dphi);
-  Solid myshape = EightPointSolid_TwistedTube(twist_angle,  rmin,  rmax, dz, dphi);
+  TwistedTube myshape( twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
+//   Solid myshape = EightPointSolid_TwistedTube(twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
   // Define volume (shape+material)
-  // Box myshape( 1*dd4hep::cm,1*dd4hep::cm,1*dd4hep::cm);
   Volume siVol(detName +"_sensor", myshape, desc.material("Silicon"));
   siVol.setVisAttributes(desc.visAttributes("vis1"));
   siVol.setSensitiveDetector(sens);
 
-  Volume siVolbis(detName +"_sensorbis", myshape, desc.material("Silicon"));
-  siVolbis.setVisAttributes(desc.visAttributes("vis2"));
+//   Volume siVolbis(detName +"_sensorbis", myshape, desc.material("Silicon"));
+//   siVolbis.setVisAttributes(desc.visAttributes("vis2"));
 
   // Place our mother volume in the world
   Volume wVol = desc.pickMotherVolume(det);
-  PlacedVolume siPV = wVol.placeVolume(siVol);
-  // Assign the system ID to our mother volume
-  siPV.addPhysVolID("system", detID);
-  // Associate the silicon Placed Volume to the detector element.
-  det.setPlacement(siPV);
+
+//   // Game 1
+//   PlacedVolume siPV = wVol.placeVolume(siVol);
+//   // Assign the system ID to our mother volume
+//   siPV.addPhysVolID("system", detID);
+//   // Associate the silicon Placed Volume to the detector element.
+//   det.setPlacement(siPV);
 
 
 
-  TwistedTube myshape2( twist_angle,  rmin,  rmax, dz, dphi);
-  Volume siVol2(detName +"_sensor2", myshape2, desc.material("Silicon"));
+//   TwistedTube myshape2( twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
+//   Volume siVol2(detName +"_sensor2", myshape2, desc.material("Silicon"));
 
-        Transform3D ttTr(RotationZ(180*dd4hep::deg), Translation3D(0*dd4hep::cm,0,0));
-  wVol.placeVolume(siVol2, ttTr);
+//         Transform3D ttTr(RotationZ(0*dd4hep::deg), Translation3D(20*dd4hep::cm,0,0));
+//   wVol.placeVolume(siVol2, ttTr);
 
 // //   //game 2
 // //   for(int i=0; i<12; ++i)
@@ -166,7 +168,16 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
 // //         det.setPlacement(siPV);
 // //       }
 // //   }
-
+  //game 3
+  for(int i=0; i<12; ++i)
+  {
+      Transform3D ttTr(RotationZ(dphi*i), Translation3D(0*dd4hep::cm,0,0));
+        PlacedVolume siPV = wVol.placeVolume(siVol,ttTr);
+        // Assign the system ID to our mother volume
+        siPV.addPhysVolID("system", detID);
+        // Associate the silicon Placed Volume to the detector element.
+        det.setPlacement(siPV);
+  }
   return det;
 }
 
