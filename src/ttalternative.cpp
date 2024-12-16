@@ -87,7 +87,7 @@ Solid EightPointSolid_TwistedTube(double twist_angle,  double rmin,  double rmax
   Hyperboloid layer_s(rmin_z0, stin, rmax_z0, stout, dz);
 
   // create a twisted tube as intersection of the generic trapezoid and the hyperboloid
-  Solid mytt = IntersectionSolid(gtrap_shape, layer_s);
+  Solid mytt = IntersectionSolid(layer_s, gtrap_shape);
   return mytt;
 }
 
@@ -112,18 +112,28 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   double twist_angle = 30*dd4hep::degree;
   double rmin = 1*dd4hep::cm;
   double rmax = 5*dd4hep::cm;
-  double dz = 200*dd4hep::cm;
+  double dz = 20*dd4hep::cm;
 
   double dphi = 30*dd4hep::deg;
   double safe_factor=1-1e-2;
   // int nsides = 2;
   //   double dphi = TMath::TwoPi()/nsides*dd4hep::rad;
-  TwistedTube myshape( twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
-//   Solid myshape = EightPointSolid_TwistedTube(twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
+//   TwistedTube myshape( twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
+  Solid myshape = EightPointSolid_TwistedTube(twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
   // Define volume (shape+material)
   Volume siVol(detName +"_sensor", myshape, desc.material("Silicon"));
   siVol.setVisAttributes(desc.visAttributes("vis1"));
   siVol.setSensitiveDetector(sens);
+
+  Tube swire_s{0,900*um,dz};
+  Volume swire_v(detName +"_sw", swire_s, desc.material("Silicon"));
+
+  auto rw = 0.5*(rmin+rmax);
+  auto rw_zo = rw*cos(twist_angle/2/dd4hep::rad);
+  auto stereoangle_w = atan( rw_zo/dz*tan(twist_angle/2/dd4hep::rad)) * dd4hep::rad;
+  dd4hep::RotationX stereoTr( -stereoangle_w );
+  dd4hep::Transform3D swireTr ( stereoTr * dd4hep::Translation3D(rw_zo,0.,0.) );
+  siVol.placeVolume(swire_v,swireTr);
 
 //   Volume siVolbis(detName +"_sensorbis", myshape, desc.material("Silicon"));
 //   siVolbis.setVisAttributes(desc.visAttributes("vis2"));
@@ -169,7 +179,7 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
 // //       }
 // //   }
   //game 3
-  for(int i=0; i<12; ++i)
+  for(int i=0; i<1; ++i)
   {
       Transform3D ttTr(RotationZ(dphi*i), Translation3D(0*dd4hep::cm,0,0));
         PlacedVolume siPV = wVol.placeVolume(siVol,ttTr);

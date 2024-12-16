@@ -23,6 +23,6 @@
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
 
-/vis/scene/add/axes
+/vis/scene/add/axes 0 0 0 20 cm
 
 #/control/execute gun.mac
