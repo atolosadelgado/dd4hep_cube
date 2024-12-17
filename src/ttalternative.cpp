@@ -19,8 +19,8 @@ Solid EightPointSolid_TwistedTube(double twist_angle,  double rmin,  double rmax
   // it seems ROOT hyperboloid requires radii at z=0, so conversion from rmin,rmax is needed
 
   // make generic trapezoid bigger, later intersected with hyperboloid of proper radii
-  double trap_rin = 0.9*rmin;
-  double trap_rout= Circumradius(1.1*rmax, dphi);
+  double trap_rin = 0; //0.9*rmin;
+  double trap_rout= Circumradius(2*rmax, dphi);
 
   double poly_angle = dphi/2;
   double twist_angle_half = twist_angle/2.;
@@ -68,7 +68,7 @@ Solid EightPointSolid_TwistedTube(double twist_angle,  double rmin,  double rmax
 
   // make the gen trap bigger, so it can protrude the hyperboloid and avoid visualization issues
   const double gtrap_dz = 1.1*dz;
-  EightPointSolid gtrap_shape(gtrap_dz, vertices_array.data() );
+  EightPointSolid gtrap_shape(dz, vertices_array.data() );
 
   //----------------- Hyperboloid -------------
       /// Calculate radius at z=L/2 given at z=0
@@ -87,7 +87,7 @@ Solid EightPointSolid_TwistedTube(double twist_angle,  double rmin,  double rmax
   Hyperboloid layer_s(rmin_z0, stin, rmax_z0, stout, dz);
 
   // create a twisted tube as intersection of the generic trapezoid and the hyperboloid
-  Solid mytt = IntersectionSolid(layer_s, gtrap_shape);
+  Solid mytt = IntersectionSolid(layer_s,gtrap_shape);
   return mytt;
 }
 
@@ -109,31 +109,31 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
 
 
 
-  double twist_angle = 30*dd4hep::degree;
+  double twist_angle = 90*dd4hep::degree;
   double rmin = 1*dd4hep::cm;
   double rmax = 5*dd4hep::cm;
   double dz = 20*dd4hep::cm;
 
-  double dphi = 30*dd4hep::deg;
+  double dphi = 90*dd4hep::deg;
   double safe_factor=1-1e-2;
   // int nsides = 2;
   //   double dphi = TMath::TwoPi()/nsides*dd4hep::rad;
-//   TwistedTube myshape( twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
+  TwistedTube myshape_tt( twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
   Solid myshape = EightPointSolid_TwistedTube(twist_angle,  rmin,  rmax, dz, dphi*safe_factor);
   // Define volume (shape+material)
   Volume siVol(detName +"_sensor", myshape, desc.material("Silicon"));
   siVol.setVisAttributes(desc.visAttributes("vis1"));
   siVol.setSensitiveDetector(sens);
 
-  Tube swire_s{0,900*um,dz};
-  Volume swire_v(detName +"_sw", swire_s, desc.material("Silicon"));
+//   Tube swire_s{0,900*um,dz};
+  Volume swire_v(detName +"_sw", myshape_tt, desc.material("Silicon"));
 
   auto rw = 0.5*(rmin+rmax);
   auto rw_zo = rw*cos(twist_angle/2/dd4hep::rad);
   auto stereoangle_w = atan( rw_zo/dz*tan(twist_angle/2/dd4hep::rad)) * dd4hep::rad;
   dd4hep::RotationX stereoTr( -stereoangle_w );
   dd4hep::Transform3D swireTr ( stereoTr * dd4hep::Translation3D(rw_zo,0.,0.) );
-  siVol.placeVolume(swire_v,swireTr);
+  siVol.placeVolume(swire_v);
 
 //   Volume siVolbis(detName +"_sensorbis", myshape, desc.material("Silicon"));
 //   siVolbis.setVisAttributes(desc.visAttributes("vis2"));
