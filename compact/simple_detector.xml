@@ -32,7 +32,7 @@
 <readouts>
   <readout name="MY_HITS">
     <segmentation type="CartesianGridXY" grid_size_x="1*cm" grid_size_y="1*cm" />
-      <id>system:6,module:2,x:12:-6,y:24:-6</id>  
+      <id>system:6,IsRightEndcap:2,x:12:-6,y:24:-6</id>
 </readout>
 </readouts>
 
@@ -42,7 +42,8 @@
     id="1"
     name="ACUBE"
     type="MYCUBE"
-    zpos="0*mm"
+    zpos="20*mm"
+    size="10*mm"
     readout="MY_HITS"
     >
     </detector>
