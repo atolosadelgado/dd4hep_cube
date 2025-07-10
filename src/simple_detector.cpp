@@ -35,6 +35,16 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   siVol.setSensitiveDetector(sens);
   siVol.setLimitSet(desc, detElem.limitsStr());
 
+  // define daughter volume as in case of Erich
+    // Define geometrical shape
+  Box subsiSolid(9 * cm / 2.,
+              9 * cm / 2.,
+              9 * cm / 2.);
+  // Define volume (shape+material)
+  Volume subsiVol(detName +"_subsensor", subsiSolid, desc.material("Silicon"));
+  subsiVol.setVisAttributes(desc.visAttributes("sensor_vis"));
+  subsiVol.setSensitiveDetector(sens);
+  subsiVol.setLimitSet(desc, detElem.limitsStr());
 
   // Place our mother volume in the world
   Volume wVol = desc.pickMotherVolume(det);
@@ -43,11 +53,15 @@ static Ref_t createDetector(Detector &desc, xml::Handle_t handle, SensitiveDetec
   // This is just for example, bad practice in general!
   wVol.setVisAttributes(desc.visAttributes("no_vis"));
 
-
+  // place daughter volume inside main volume
+  auto subsiPV = siVol.placeVolume(subsiVol, Position(0, 0, zpos));
+  
+  // place main volume into the world
   PlacedVolume siPV = wVol.placeVolume(siVol, Position(0, 0, zpos));
 
-  // Assign the system ID to our mother volume
+  // Assign the system ID to our mother volume; it will be propagated to daughters
   siPV.addPhysVolID("system", detID);
+  subsiPV.addPhysVolID("module", 1);
 
   // Associate the silicon Placed Volume to the detector element.
   det.setPlacement(siPV);
